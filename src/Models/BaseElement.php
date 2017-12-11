@@ -398,11 +398,30 @@ class BaseElement extends DataObject implements CMSPreviewable
      * be rendered through their {@link ElementController} class as this
      * contains the holder styles.
      *
+     * By default SilverStripe will look for your element templates in your
+     * theme's template directory root. You can override this, and prefix their
+     * location by setting a BaseElement config variable 'element_template_dir'
+     * in your config files like:
+     *
+     * DNADesign\Elemental\Models\BaseElement:
+     *   element_template_dir: MyElementFolder
+     *
      * @return string|null HTML
      */
     public function forTemplate($holder = true)
     {
         $templates = $this->getRenderTemplates();
+
+        // if 'element_template_dir' is set, add prefixed template paths
+        if ($prefix = $this->config()->get('element_template_dir')) {
+            $additional_template_paths = [];
+            foreach ($templates as $template_path) {
+                $parts = explode('\\',$template_path);
+                $name = array_pop($parts);
+                $additional_template_paths[] = $prefix . DIRECTORY_SEPARATOR . $name;
+            }
+            $templates = array_merge($templates, $additional_template_paths);
+        }
 
         if ($templates) {
             return $this->renderWith($templates);

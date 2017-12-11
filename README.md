@@ -125,7 +125,19 @@ class MyElement extends BaseElement
 
 ### Defining your own HTML
 
-`MyElement` will be rendered into a `MyElement.ss` template with the `ElementHolder.ss` wrapper. Changing the holder
+`MyElement` will be rendered into a `MyElement.ss` template with the `ElementHolder.ss` wrapper.
+
+By default SilverStripe will look for your element templates in your
+theme's template directory root. You can override this, and prefix their
+location by setting a BaseElement config variable 'element_template_dir'
+in your config files like:
+
+```yaml
+DNADesign\Elemental\Models\BaseElement:
+  element_template_dir: MyElementFolder
+```
+
+Changing the holder
 template can be done via YAML, or by using a `$controller_template` on your subclass.
 
 ```php
