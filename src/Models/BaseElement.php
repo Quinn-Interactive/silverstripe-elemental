@@ -420,7 +420,7 @@ class BaseElement extends DataObject implements CMSPreviewable
                 $name = array_pop($parts);
                 $additional_template_paths[] = $prefix . DIRECTORY_SEPARATOR . $name;
             }
-            $templates = array_merge($templates, $additional_template_paths);
+            $templates = array_merge($additional_template_paths, $templates);
         }
 
         if ($templates) {
@@ -581,7 +581,6 @@ class BaseElement extends DataObject implements CMSPreviewable
     {
         if (Controller::has_curr()) {
             $controller = Controller::curr();
-
             if ($controller->getRequest()->requestVar('CMSPreview')) {
                 return true;
             }
